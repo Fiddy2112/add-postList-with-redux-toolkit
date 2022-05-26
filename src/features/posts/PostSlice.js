@@ -7,18 +7,39 @@ const initialState = [
     title: "Learning Redux Toolkit",
     content: "Redux Toolkit",
     date: sub(new Date(), { minutes: 10 }).toISOString(),
+    reactions: {
+      thumbsUp: 0,
+      wow: 0,
+      heart: 0,
+      rocket: 0,
+      coffee: 0,
+    },
   },
   {
     id: "2",
     title: "Slices",
     content: "Redux Toolkit",
     date: sub(new Date(), { minutes: 20 }).toISOString(),
+    reactions: {
+      thumbsUp: 0,
+      wow: 0,
+      heart: 0,
+      rocket: 0,
+      coffee: 0,
+    },
   },
   {
     id: "3",
     title: "Sleep",
     content: "ZzzZZZzzzZZ",
     date: sub(new Date(), { minutes: 30 }).toISOString(),
+    reactions: {
+      thumbsUp: 0,
+      wow: 0,
+      heart: 0,
+      rocket: 0,
+      coffee: 0,
+    },
   },
 ];
 
@@ -42,15 +63,30 @@ export const postSlices = createSlice({
             title,
             content,
             userId,
+            reactions: {
+              thumbsUp: 0,
+              wow: 0,
+              heart: 0,
+              rocket: 0,
+              coffee: 0,
+            },
           },
         };
       },
+    },
+    reactionAdded(state, action) {
+      const { postId, reaction } = action.payload;
+
+      const existingPost = state.find((post) => post.id === postId);
+      if (existingPost) {
+        existingPost.reactions[reaction]++;
+      }
     },
   },
 });
 
 export const selectAllPosts = (state) => state.posts;
 
-export const { addPost } = postSlices.actions;
+export const { addPost, reactionAdded } = postSlices.actions;
 
 export default postSlices.reducer;
